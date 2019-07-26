@@ -1,0 +1,74 @@
+<html>
+<body style='background-color:black'>
+<canvas id='TwitchScroller' width='600' height='800'></canvas>
+<script>
+
+var fontLayout = "abcdefghijklmnopqrstuvwxyz.:><0123456789+!/";
+
+var text = `
+abc
+def
+ghijklmnopqrstuvwxyz01234567890.:><+!/`;
+text = text.toLowerCase();
+
+const fontWidth = 16;
+const fontHeight = 22;
+const letters = 130;
+
+var x = [];
+var char = [];
+var sineAmount = 30;
+var sineAngle = 0;
+
+var position = letters;
+
+let bitmap = new Image();
+bitmap.src = 'font.png';
+
+let canvas = document.getElementById('TwitchScroller');
+let context = canvas.getContext('2d');
+
+
+for (let n = 0; n < letters; n++) {
+  char[n] = fontLayout.indexOf(text[n]);
+  x[n] = n * fontWidth;
+}
+	
+canvas.width = 3500;
+canvas.height = 150;
+
+window.requestAnimationFrame(SineScroll);
+ 
+function SineScroll() 
+{
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	for (let n = 0; n < letters; n++) 
+	{
+		// Draw each vertical column of pixel data, per character
+		for(let xC = 0;xC < fontWidth;xC++) 
+		{
+			let y = (Math.sin(((x[n] + xC)/(canvas.width/35)) + (sineAngle)/9) * sineAmount) + 60;
+			context.drawImage(bitmap, char[n] * fontWidth + xC, 0, 1, fontHeight, x[n]+xC, y, 1, fontHeight);
+		}
+
+		// Scroll speed
+		x[n]-=2;
+		
+		// Next letter
+		if (x[n] < -fontWidth) 
+		{
+			x[n] = (letters - 1) * fontWidth;
+			char[n] = fontLayout.indexOf(text[position]);
+			position++;
+			if (position > text.length) position = 0;
+		}
+
+	}
+
+	// Sine speed
+	++sineAngle;
+
+	window.requestAnimationFrame(SineScroll);
+}
+</script>
+</body></html>
