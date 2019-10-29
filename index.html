@@ -20,6 +20,17 @@ var char = [];
 var sineAmount = 30;
 var sineAngle = 0;
 
+// This was the dc.b data straight out of my Amiga cracktro... 
+var colourTable = [
+    "ff0011","ff0022","ff0033","ff0044","ff0055","ff0066","ff0077","ff0088","ff0099","ff00aa","ff00bb","ff00cc","ff00dd","ff00ee","ff00ff",
+    "ee00ff","dd00ff","cc00ff","bb00ff","aa00ff","9900ff","8800ff","7700ff","6600ff","5500ff","4400ff","3300ff","2200ff","1100ff","1100ff",
+    "1111ff","1122ff","1133ff","1144ff","1155ff","1166ff","1177ff","1188ff","1199ff","11aaff","11bbff","11ccff","11ddff","11eeff","11ffff",
+    "11ffee","11ffdd","11ffcc","11ffbb","11ffaa","11ff99","11ff88","11ff77","11ff66","11ff55","11ff44","11ff33","11ff22","11ff11","11ff00",
+    "11ff00","22ff00","33ff00","44ff00","55ff00","66ff00","77ff00","88ff00","99ff00","aaff00","bbff00","ccff00","ddff00","eeff00","ffff00",
+    "ffee00","ffdd00","ffcc00","ffbb00","ffaa00","ff9900","ff8800","ff7700","ff6600","ff5500","ff4400","ff3300","ff2200","ff1100","ff0000"
+];
+
+                                    
 var position = letters;
 
 let bitmap = new Image();
@@ -28,6 +39,10 @@ bitmap.src = 'font.png';
 let canvas = document.getElementById('TwitchScroller');
 let context = canvas.getContext('2d');
 
+var copperPix = context.createImageData(1,1);
+var pixData  = copperPix.data;
+pixData[3] = 255;
+var tableStart = 0;
 
 for (let n = 0; n < letters; n++) {
   char[n] = fontLayout.indexOf(text[n]);
@@ -68,7 +83,81 @@ function SineScroll()
 	// Sine speed
 	++sineAngle;
 
+
+  // Copper Bar
+  tableStart++;
+  if(tableStart >= colourTable.length) tableStart=0;
+  CopperBar();
+    
 	window.requestAnimationFrame(SineScroll);
 }
+
+
+
+function CopperBar()
+{
+    var colTabIndex = tableStart;
+    
+    for( let i = 0; i < canvas.width; i+=16)
+    { 
+        // LOL, and I thought I was being lazy by cut and pasting the data out of my old asm routine
+        // but it ended up causing this filth... :D
+        // Oh well, we're not caring about speed for this...
+        pixData[0] = parseInt(colourTable[colTabIndex].substring(0,2),16);
+        pixData[1] = parseInt(colourTable[colTabIndex].substring(2,4),16);
+        pixData[2] = parseInt(colourTable[colTabIndex].substring(4,6),16);     
+        
+        ++colTabIndex;
+        if(colTabIndex >= colourTable.length) colTabIndex = 0;
+
+        context.putImageData(copperPix, i, 0);
+        context.putImageData(copperPix, i+1, 0);
+        context.putImageData(copperPix, i+2, 0);
+        context.putImageData(copperPix, i+3, 0);
+        context.putImageData(copperPix, i+4, 0);
+        context.putImageData(copperPix, i+5, 0);
+        context.putImageData(copperPix, i+6, 0);
+        context.putImageData(copperPix, i+7, 0);
+        context.putImageData(copperPix, i+8, 0);
+        context.putImageData(copperPix, i+9, 0);
+        context.putImageData(copperPix, i+10, 0);
+        context.putImageData(copperPix, i+11, 0);
+        context.putImageData(copperPix, i+12, 0);
+        context.putImageData(copperPix, i+13, 0);
+        context.putImageData(copperPix, i+14, 0);
+        context.putImageData(copperPix, i+15, 0);
+    }
+
+    colTabIndex = tableStart;
+    
+    for( let i = canvas.width-16; i >0; i-=16)
+    { 
+        pixData[0] = parseInt(colourTable[colTabIndex].substring(0,2),16);
+        pixData[1] = parseInt(colourTable[colTabIndex].substring(2,4),16);
+        pixData[2] = parseInt(colourTable[colTabIndex].substring(4,6),16);     
+        
+        ++colTabIndex;
+        if(colTabIndex >= colourTable.length) colTabIndex = 0;
+
+        context.putImageData(copperPix, i, canvas.height-1);
+        context.putImageData(copperPix, i+1, canvas.height-1);
+        context.putImageData(copperPix, i+2, canvas.height-1);
+        context.putImageData(copperPix, i+3, canvas.height-1);
+        context.putImageData(copperPix, i+4, canvas.height-1);
+        context.putImageData(copperPix, i+5, canvas.height-1);
+        context.putImageData(copperPix, i+6, canvas.height-1);
+        context.putImageData(copperPix, i+7, canvas.height-1);
+        context.putImageData(copperPix, i+8, canvas.height-1);
+        context.putImageData(copperPix, i+9, canvas.height-1);
+        context.putImageData(copperPix, i+10, canvas.height-1);
+        context.putImageData(copperPix, i+11, canvas.height-1);
+        context.putImageData(copperPix, i+12, canvas.height-1);
+        context.putImageData(copperPix, i+13, canvas.height-1);
+        context.putImageData(copperPix, i+14, canvas.height-1);
+        context.putImageData(copperPix, i+15, canvas.height-1);
+    }
+}
+
+
 </script>
 </body></html>
