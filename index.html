@@ -1,5 +1,5 @@
 <html>
-<body style='background-color:black'>
+<body style='background-color:black; margin: 0px; padding: 0px;'>
 <canvas id='TwitchScroller' width='600' height='800'></canvas>
 <script>
 
@@ -87,15 +87,6 @@ function SineScroll()
   // Copper Bar
   tableStart++;
   if(tableStart >= colourTable.length) tableStart=0;
-  CopperBar();
-    
-	window.requestAnimationFrame(SineScroll);
-}
-
-
-
-function CopperBar()
-{
     var colTabIndex = tableStart;
     
     for( let i = 0; i < canvas.width; i+=16)
@@ -110,27 +101,27 @@ function CopperBar()
         ++colTabIndex;
         if(colTabIndex >= colourTable.length) colTabIndex = 0;
 
-        context.putImageData(copperPix, i, 0);
-        context.putImageData(copperPix, i+1, 0);
-        context.putImageData(copperPix, i+2, 0);
-        context.putImageData(copperPix, i+3, 0);
-        context.putImageData(copperPix, i+4, 0);
-        context.putImageData(copperPix, i+5, 0);
-        context.putImageData(copperPix, i+6, 0);
-        context.putImageData(copperPix, i+7, 0);
-        context.putImageData(copperPix, i+8, 0);
-        context.putImageData(copperPix, i+9, 0);
-        context.putImageData(copperPix, i+10, 0);
-        context.putImageData(copperPix, i+11, 0);
-        context.putImageData(copperPix, i+12, 0);
-        context.putImageData(copperPix, i+13, 0);
-        context.putImageData(copperPix, i+14, 0);
-        context.putImageData(copperPix, i+15, 0);
+        context.putImageData(copperPix, i, 2);
+        context.putImageData(copperPix, i+1, 2);
+        context.putImageData(copperPix, i+2, 2);
+        context.putImageData(copperPix, i+3, 2);
+        context.putImageData(copperPix, i+4, 2);
+        context.putImageData(copperPix, i+5, 2);
+        context.putImageData(copperPix, i+6, 2);
+        context.putImageData(copperPix, i+7, 2);
+        context.putImageData(copperPix, i+8, 2);
+        context.putImageData(copperPix, i+9, 2);
+        context.putImageData(copperPix, i+10, 2);
+        context.putImageData(copperPix, i+11, 2);
+        context.putImageData(copperPix, i+12, 2);
+        context.putImageData(copperPix, i+13, 2);
+        context.putImageData(copperPix, i+14, 2);
+        context.putImageData(copperPix, i+15, 2);
     }
 
     colTabIndex = tableStart;
     
-    for( let i = canvas.width-16; i >0; i-=16)
+    for( let i = canvas.width-16; i > -16; i-=16)
     { 
         pixData[0] = parseInt(colourTable[colTabIndex].substring(0,2),16);
         pixData[1] = parseInt(colourTable[colTabIndex].substring(2,4),16);
@@ -156,6 +147,8 @@ function CopperBar()
         context.putImageData(copperPix, i+14, canvas.height-1);
         context.putImageData(copperPix, i+15, canvas.height-1);
     }
+    
+	window.requestAnimationFrame(SineScroll);
 }
 
 
