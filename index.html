@@ -5,13 +5,13 @@
 
     var fontLayout = "abcdefghijklmnopqrstuvwxyz.:><0123456789+!/";
 
-    var starCount = 512;
+    var starCount = 128;
     var starParrallax1 = new Array(starCount);
     var starParrallax2 = new Array(starCount);
     var starParrallax3 = new Array(starCount);
 
     // Scroll text
-    var text = `abc def ghijklmnopqrstuvwxyz01234567890.:><+!/`;
+    var text = `          cecconoid is out now! buy on itch.io or on steam!            https://store.steampowered.com/app/683310/Cecconoid/                                  jump onto the triple eh? discord:          https://discordapp.com/invite/tripleeh                                    latest dev vlog is not available on you tube:         https://www.youtube.com/watch?v=arJqL2xS1AQ                             `;
     text = text.toLowerCase();
 
     // Font properties
@@ -21,7 +21,7 @@
 
     var x = [];
     var char = [];
-    var sineAmount = 30;
+    var sineAmount = 18;
     var sineAngle = 0;
 
     // This was the dc.b data straight out of my Amiga cracktro... 
@@ -44,9 +44,8 @@
     let context = canvas.getContext('2d');
 
     // Pixel data for plotting... Reused for the stars
-    var copperPix = context.createImageData(1,1);
-    var pixData  = copperPix.data;
-    pixData[3] = 255;
+    var copperPix = context.createImageData(32,1);
+    var starPix= context.createImageData(1,1);
     var tableStart = 0;
 
     for (let n = 0; n < letters; n++) 
@@ -55,7 +54,7 @@
       x[n] = n * fontWidth;
     }
 
-    canvas.width = 3500;
+    canvas.width = 2000;
     canvas.height = 150;
 
     window.requestAnimationFrame(BuildStars);
@@ -87,6 +86,10 @@
 
       context.clearRect(0, 0, canvas.width, canvas.height);
 
+  		var pixData  = starPix.data;
+    	pixData[3] = 255;
+
+
       // Stars
       for(let i = 0; i < starCount; ++i)
       {
@@ -100,18 +103,13 @@
         if(starParrallax3[i][0]>=canvas.width) starParrallax3[i][0] = 1; 
 
         pixData[0] = pixData[1] = pixData[2] = 128;
-        context.putImageData(copperPix, starParrallax1[i][0], starParrallax1[i][1]);
-        context.putImageData(copperPix, starParrallax1[i][0]+1, starParrallax1[i][1]);
+        context.putImageData(starPix, starParrallax1[i][0], starParrallax1[i][1]);
 
         pixData[0] = pixData[1] = pixData[2] = 164;
-        context.putImageData(copperPix, starParrallax2[i][0], starParrallax2[i][1]);
-        context.putImageData(copperPix, starParrallax2[i][0]+1, starParrallax2[i][1]);
-        context.putImageData(copperPix, starParrallax2[i][0]+2, starParrallax2[i][1]);
+        context.putImageData(starPix, starParrallax2[i][0], starParrallax2[i][1]);
 
         pixData[0] = pixData[1] = pixData[2] = 220;
-        context.putImageData(copperPix, starParrallax3[i][0], starParrallax3[i][1]);
-        context.putImageData(copperPix, starParrallax3[i][0]+1, starParrallax3[i][1]);
-        context.putImageData(copperPix, starParrallax3[i][0]+2, starParrallax3[i][1]);
+        context.putImageData(starPix, starParrallax3[i][0], starParrallax3[i][1]);
       }
 
 
@@ -127,7 +125,7 @@
     		}
 
     		// Scroll speed
-    		x[n]-=2;
+    		x[n]-=1;
     		
     		// Next letter
     		if (x[n] < -fontWidth) 
@@ -148,63 +146,113 @@
       if(tableStart >= colourTable.length) tableStart=0;
       var colTabIndex = tableStart;
 
-      for( let i = 0; i < canvas.width; i+=16)
+
+   		var pixData  = copperPix.data; 
+
+      for( let i = 0; i < canvas.width; i+=32)
       { 
-        // LOL, and I thought I was being lazy by cut and pasting the data out of my old asm routine
-        // but it ended up causing this filth... :D
-        // Oh well, we're not caring about speed for this...
-        pixData[0] = parseInt(colourTable[colTabIndex].substring(0,2),16);
-        pixData[1] = parseInt(colourTable[colTabIndex].substring(2,4),16);
-        pixData[2] = parseInt(colourTable[colTabIndex].substring(4,6),16);     
+        let r = parseInt(colourTable[colTabIndex].substring(0,2),16);
+	      let g = parseInt(colourTable[colTabIndex].substring(2,4),16);
+	      let b = parseInt(colourTable[colTabIndex].substring(4,6),16); 
+
+      	for ( let j = 0; j<32; j++)
+      	{
+      		let index = j*4;
+	        pixData[index+0] = r;
+	        pixData[index+1] = g;
+	        pixData[index+2] = b;  
+	        pixData[index+3] = 255;         		
+      	} 
         
         ++colTabIndex;
         if(colTabIndex >= colourTable.length) colTabIndex = 0;
 
         context.putImageData(copperPix, i, 2);
-        context.putImageData(copperPix, i+1, 2);
-        context.putImageData(copperPix, i+2, 2);
-        context.putImageData(copperPix, i+3, 2);
-        context.putImageData(copperPix, i+4, 2);
-        context.putImageData(copperPix, i+5, 2);
-        context.putImageData(copperPix, i+6, 2);
-        context.putImageData(copperPix, i+7, 2);
-        context.putImageData(copperPix, i+8, 2);
-        context.putImageData(copperPix, i+9, 2);
-        context.putImageData(copperPix, i+10, 2);
-        context.putImageData(copperPix, i+11, 2);
-        context.putImageData(copperPix, i+12, 2);
-        context.putImageData(copperPix, i+13, 2);
-        context.putImageData(copperPix, i+14, 2);
-        context.putImageData(copperPix, i+15, 2);
+        // context.putImageData(copperPix, i+1, 2);
+        // context.putImageData(copperPix, i+2, 2);
+        // context.putImageData(copperPix, i+3, 2);
+        // context.putImageData(copperPix, i+4, 2);
+        // context.putImageData(copperPix, i+5, 2);
+        // context.putImageData(copperPix, i+6, 2);
+        // context.putImageData(copperPix, i+7, 2);
+        // context.putImageData(copperPix, i+8, 2);
+        // context.putImageData(copperPix, i+9, 2);
+        // context.putImageData(copperPix, i+10, 2);
+        // context.putImageData(copperPix, i+11, 2);
+        // context.putImageData(copperPix, i+12, 2);
+        // context.putImageData(copperPix, i+13, 2);
+        // context.putImageData(copperPix, i+14, 2);
+        // context.putImageData(copperPix, i+15, 2);
+        // context.putImageData(copperPix, i+16, 2);
+        // context.putImageData(copperPix, i+17, 2);
+        // context.putImageData(copperPix, i+18, 2);
+        // context.putImageData(copperPix, i+19, 2);
+        // context.putImageData(copperPix, i+20, 2);
+        // context.putImageData(copperPix, i+21, 2);
+        // context.putImageData(copperPix, i+22, 2);
+        // context.putImageData(copperPix, i+23, 2);
+        // context.putImageData(copperPix, i+24, 2);
+        // context.putImageData(copperPix, i+25, 2);
+        // context.putImageData(copperPix, i+26, 2);
+        // context.putImageData(copperPix, i+27, 2);
+        // context.putImageData(copperPix, i+28, 2);
+        // context.putImageData(copperPix, i+29, 2);
+        // context.putImageData(copperPix, i+30, 2);
+        // context.putImageData(copperPix, i+31, 2);
       }
 
       colTabIndex = tableStart;
 
-      for( let i = canvas.width-16; i > -16; i-=16)
-      { 
-        pixData[0] = parseInt(colourTable[colTabIndex].substring(0,2),16);
-        pixData[1] = parseInt(colourTable[colTabIndex].substring(2,4),16);
-        pixData[2] = parseInt(colourTable[colTabIndex].substring(4,6),16);     
+      for( let i = canvas.width-32; i > -32; i-=32)
+      {
+        let r = parseInt(colourTable[colTabIndex].substring(0,2),16);
+	      let g = parseInt(colourTable[colTabIndex].substring(2,4),16);
+	      let b = parseInt(colourTable[colTabIndex].substring(4,6),16); 
+
+      	for ( let j = 0; j<32; j++)
+      	{
+      		let index = j*4;
+	        pixData[index+0] = r;
+	        pixData[index+1] = g;
+	        pixData[index+2] = b;  
+	        pixData[index+3] = 255;         		
+      	} 
         
         ++colTabIndex;
         if(colTabIndex >= colourTable.length) colTabIndex = 0;
 
-        context.putImageData(copperPix, i, canvas.height-1);
-        context.putImageData(copperPix, i+1, canvas.height-1);
-        context.putImageData(copperPix, i+2, canvas.height-1);
-        context.putImageData(copperPix, i+3, canvas.height-1);
-        context.putImageData(copperPix, i+4, canvas.height-1);
-        context.putImageData(copperPix, i+5, canvas.height-1);
-        context.putImageData(copperPix, i+6, canvas.height-1);
-        context.putImageData(copperPix, i+7, canvas.height-1);
-        context.putImageData(copperPix, i+8, canvas.height-1);
-        context.putImageData(copperPix, i+9, canvas.height-1);
-        context.putImageData(copperPix, i+10, canvas.height-1);
-        context.putImageData(copperPix, i+11, canvas.height-1);
-        context.putImageData(copperPix, i+12, canvas.height-1);
-        context.putImageData(copperPix, i+13, canvas.height-1);
-        context.putImageData(copperPix, i+14, canvas.height-1);
-        context.putImageData(copperPix, i+15, canvas.height-1);
+        context.putImageData(copperPix, i, canvas.height-4);
+       //  context.putImageData(copperPix, i+1, canvas.height-4);
+       //  context.putImageData(copperPix, i+2, canvas.height-4);
+       //  context.putImageData(copperPix, i+3, canvas.height-4);
+       //  context.putImageData(copperPix, i+4, canvas.height-4);
+       //  context.putImageData(copperPix, i+5, canvas.height-4);
+       //  context.putImageData(copperPix, i+6, canvas.height-4);
+       //  context.putImageData(copperPix, i+7, canvas.height-4);
+       //  context.putImageData(copperPix, i+8, canvas.height-4);
+       //  context.putImageData(copperPix, i+9, canvas.height-4);
+       //  context.putImageData(copperPix, i+10, canvas.height-4);
+       //  context.putImageData(copperPix, i+11, canvas.height-4);
+       //  context.putImageData(copperPix, i+12, canvas.height-4);
+       //  context.putImageData(copperPix, i+13, canvas.height-4);
+       //  context.putImageData(copperPix, i+14, canvas.height-4);
+       //  context.putImageData(copperPix, i+15, canvas.height-4);
+       //  context.putImageData(copperPix, i+16, canvas.height-4);
+       //  context.putImageData(copperPix, i+17, canvas.height-4);
+       //  context.putImageData(copperPix, i+18, canvas.height-4);
+       //  context.putImageData(copperPix, i+19, canvas.height-4);
+       //  context.putImageData(copperPix, i+20, canvas.height-4);
+       //  context.putImageData(copperPix, i+21, canvas.height-4);
+       //  context.putImageData(copperPix, i+22, canvas.height-4);
+       //  context.putImageData(copperPix, i+23, canvas.height-4);
+       //  context.putImageData(copperPix, i+24, canvas.height-4);
+       //  context.putImageData(copperPix, i+25, canvas.height-4);
+       //  context.putImageData(copperPix, i+26, canvas.height-4);
+       //  context.putImageData(copperPix, i+27, canvas.height-4);
+       //  context.putImageData(copperPix, i+28, canvas.height-4);
+       //  context.putImageData(copperPix, i+29, canvas.height-4);
+       //  context.putImageData(copperPix, i+30, canvas.height-4);
+     		// context.putImageData(copperPix, i+31, canvas.height-4);
       }
 
       window.requestAnimationFrame(DrawScreen);
