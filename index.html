@@ -3,7 +3,7 @@
   <canvas id='TwitchScroller' width='600' height='800'></canvas>
   <script>
 
-    var fontLayout = "abcdefghijklmnopqrstuvwxyz.:><0123456789+!/";
+    var fontLayout = "abcdefghijklmnopqrstuvwxyz.:><0123456789+!/?,-;()";
 
     var starCount = 128;
     var starParrallax1 = new Array(starCount);
@@ -11,7 +11,7 @@
     var starParrallax3 = new Array(starCount);
 
     // Scroll text
-    var text = `          cecconoid is out now! buy on itch.io or on steam!            https://store.steampowered.com/app/683310/Cecconoid/                                  jump onto the triple eh? discord:          https://discordapp.com/invite/tripleeh                                    latest dev vlog is not available on you tube:         https://www.youtube.com/watch?v=arJqL2xS1AQ                             `;
+    var text = `         hello and welcome to the triple eh? twitch stream!         you are listening to the rk3 podcast:   www.rk3podcast.com  --  dj mixes by me!         subscribe on itunes, spotify, or direct from the website (rss) to you podcatcher...          the source code for this scroller is available on my github:   github.com/tripleeh                 latest game release:   cecconoid  --  a twin-stick, flick-screen, old-school shmup!    available now on steam, itch.io and coming soon to ios and android                  cecconoid has also been made available under the creative commons!    head over to my github for details...                   you are watching me work on my current project, maenhir, a top-down zelda-a-like, loosely based on a link between worlds    (not link to the past!)       feel free to jump into the chat and ask questions      check out the links in the banner to follow me on social media...      join the triple eh? discord channel:    discord.gg/tripleeh                                 scrolly loops!                      `;
     text = text.toLowerCase();
 
     // Font properties
@@ -54,8 +54,8 @@
       x[n] = n * fontWidth;
     }
 
-    canvas.width = 2000;
-    canvas.height = 150;
+    canvas.width = 2900;
+    canvas.height = 110;
 
     window.requestAnimationFrame(BuildStars);
     window.requestAnimationFrame(DrawScreen);
@@ -120,12 +120,12 @@
     		// Draw each vertical column of pixel data, per character
     		for(let xC = 0;xC < fontWidth;xC++) 
     		{
-    			let y = (Math.sin(((x[n] + xC)/(canvas.width/35)) + (sineAngle)/9) * sineAmount) + 60;
+    			let y = (Math.sin(((x[n] + xC)/(canvas.width/35)) + (sineAngle)/9) * sineAmount) + 40;
     			context.drawImage(bitmap, char[n] * fontWidth + xC, 0, 1, fontHeight, x[n]+xC, y, 1, fontHeight);
     		}
 
     		// Scroll speed
-    		x[n]-=1;
+    		x[n]-=2;
     		
     		// Next letter
     		if (x[n] < -fontWidth) 
