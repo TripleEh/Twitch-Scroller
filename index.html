@@ -3,7 +3,7 @@
   <canvas id='TwitchScroller' width='600' height='800'></canvas>
   <script>
 
-    var fontLayout = "abcdefghijklmnopqrstuvwxyz.:><0123456789+!/?,-;()";
+    var fontLayout = "abcdefghijklmnopqrstuvwxyz.:><0123456789+!/?,-;()[]{}@";
 
     var starCount = 128;
     var starParrallax1 = new Array(starCount);
@@ -11,12 +11,12 @@
     var starParrallax3 = new Array(starCount);
 
     // Scroll text
-    var text = `wheeeee!                           hello hello hello! i hope you're doing well!           im currently working on maenhir, a top-down zelda-a-like, loosely based on a link between worlds    (not link to the past!)                                  feel free to jump into the chat and ask questions.      if that's not your thing, then bundle into my discord, and ask questions there:    discord.gg/tripleeh            if you'd like to catch up with progress so far, please check out the play list on you tube: https://www.youtube.com/tripleehltd                    scrolly loops!                     `;
+    var text = `hello!     welcome to the triple-eh? twitch stream!        feel free to hop into the chat and ask questions!        Im currently working on -- maenhir -- a top-down zelda clone loosely based on link between worlds on 3ds    built in ue4           youtube developer vlogs:  bit.ly/devvlog            weekly developer blogs:   bit.ly/eh-blog           triple-eh discord:  discord.gg/tripleeh                       scrolly loops               `;
     text = text.toLowerCase();
 
     // Font properties
-    const fontWidth = 16;
-    const fontHeight = 22;
+    const fontWidth = 48;
+    const fontHeight = 50;
     const letters = 130;
 
     var x = [];
@@ -38,7 +38,7 @@
 
     var position = letters;
     let bitmap = new Image();
-    bitmap.src = 'font.png';
+    bitmap.src = 'font2.png';
 
     let canvas = document.getElementById('TwitchScroller');
     let context = canvas.getContext('2d');
@@ -120,12 +120,12 @@
     		// Draw each vertical column of pixel data, per character
     		for(let xC = 0;xC < fontWidth;xC++) 
     		{
-    			let y = (Math.sin(((x[n] + xC)/(canvas.width/35)) + (sineAngle)/9) * sineAmount) + 40;
+    			let y = (Math.sin(((x[n] + xC)/(canvas.width/35)) + (sineAngle)/9) * sineAmount) + 30;
     			context.drawImage(bitmap, char[n] * fontWidth + xC, 0, 1, fontHeight, x[n]+xC, y, 1, fontHeight);
     		}
 
     		// Scroll speed
-    		x[n]-=2;
+    		x[n]-=4;
     		
     		// Next letter
     		if (x[n] < -fontWidth) 
@@ -138,7 +138,7 @@
     	}
 
     	// Sine speed
-    	++sineAngle;
+    	sineAngle+=1.25;
 
 
       // Copper Bar
