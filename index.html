@@ -11,12 +11,12 @@
     var starParrallax3 = new Array(starCount);
 
     // Scroll text
-    var text = `hello!     welcome to the triple-eh? twitch stream!        feel free to hop into the chat and ask questions!        Im currently working on -- maenhir -- a top-down zelda clone loosely based on link between worlds on 3ds    built in ue4           youtube developer vlogs:  bit.ly/devvlog            weekly developer blogs:   bit.ly/eh-blog           triple-eh discord:  discord.gg/tripleeh                       scrolly loops               `;
+    var text = `                   hello!     welcome to the triple-eh? twitch stream!        feel free to hop into the chat and ask questions!        Im currently working on -- maenhir -- a top-down zelda clone loosely based on link between worlds on 3ds    built in ue4           youtube developer vlogs:  bit.ly/devvlog            weekly developer blogs:   bit.ly/eh-blog           triple-eh discord:  discord.gg/tripleeh                       scrolly loops               `;
     text = text.toLowerCase();
 
     // Font properties
-    const fontWidth = 48;
-    const fontHeight = 50;
+    const fontWidth = 24;
+    const fontHeight = 25;
     const letters = 130;
 
     var x = [];
@@ -38,7 +38,7 @@
 
     var position = letters;
     let bitmap = new Image();
-    bitmap.src = 'font2.png';
+    bitmap.src = 'font3.png';
 
     let canvas = document.getElementById('TwitchScroller');
     let context = canvas.getContext('2d');
@@ -120,12 +120,12 @@
     		// Draw each vertical column of pixel data, per character
     		for(let xC = 0;xC < fontWidth;xC++) 
     		{
-    			let y = (Math.sin(((x[n] + xC)/(canvas.width/35)) + (sineAngle)/9) * sineAmount) + 30;
+    			let y = (Math.sin(((x[n] + xC)/(canvas.width/35)) + (sineAngle)/9) * sineAmount) + 40;
     			context.drawImage(bitmap, char[n] * fontWidth + xC, 0, 1, fontHeight, x[n]+xC, y, 1, fontHeight);
     		}
 
     		// Scroll speed
-    		x[n]-=4;
+    		x[n]-=2.5;
     		
     		// Next letter
     		if (x[n] < -fontWidth) 
@@ -138,7 +138,7 @@
     	}
 
     	// Sine speed
-    	sineAngle+=1.25;
+    	sineAngle+=0.75;
 
 
       // Copper Bar
